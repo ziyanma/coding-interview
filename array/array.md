@@ -11,8 +11,8 @@ I strongly recommend you follow a single pattern for array indexing from the beg
 
 My recommendation in this practical guide is officially: **Exclusive End Ranging**, and Length can be used as a supplement, as it is an easy alternative to exclusive end ranging, here's why.
 - Though inclusive end ranging is more intuitive, exclusive end ranging supports easier arithmetic calculation. 
-- Many standard libraries are also inheritently using exclusive end ranging. Such as python's `range(start, end)`, slicing `arr[start:end]`, Cpp's standard library `std::find(data.begin(), data.begin() + n /*exclusive*/, target);`
-- Inclusive end ranging can also leads to "Off-By-One" error, if you are not careful, segmentation fault in Cpp, error thrown in Java, ... While they are avoided in exclusive end ranging
+- Many standard libraries are also inheritently using exclusive end ranging. Such as python's `range(start, end)`, slicing `arr[start:end]`, Cpp's standard library `std::find(data.begin(), data.begin() + n /*exclusive*/, target);`. Converting Inclusive end ranging to use these libraries are error-prone.
+- Avoids boundary mistakes. When using inclusive end ranging carelessly, you can easily encounter Out-of-Bound Error, (Segmentation fault in Cpp) ... While they are avoided in exclusive end ranging
 
 
 Here are some examples:
