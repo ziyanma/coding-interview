@@ -1,31 +1,29 @@
 ## Array
 
-### Indexing (Priority)
-In array problems, there are many examples that you would need to process a sub-array. There exists more than one ways to represent:
-1. Start Index + End Index (Inclusive), [Start, End]
-2. Start Index + End Index (Exclusive), [Start, End)
-3. Start Index + Length, [Start, Start + Length)
-4. As a fallback, you can always physically create the sub array.
-
-I strongly recommend you follow a single pattern for array indexing from the beginning, and culture it as a habit, especially, don't mix approach #1 and #2 in your coding interview. 
-
-My recommendation in this practical guide is officially: **Exclusive End Ranging**, and Length can be used as a supplement, as it is an easy alternative to exclusive end ranging, here's why.
-- Though inclusive end ranging is more intuitive, exclusive end ranging supports easier arithmetic calculation. 
-- Many standard libraries are also inheritently using exclusive end ranging. Such as python's `range(start, end)`, slicing `arr[start:end]`, Cpp's standard library `std::find(data.begin(), data.begin() + n /*exclusive*/, target);`. Converting Inclusive end ranging to use these libraries are error-prone.
-- Avoids boundary mistakes. When using inclusive end ranging carelessly, you can easily encounter Out-of-Bound Error, (Segmentation fault in Cpp) ... While they are avoided in exclusive end ranging
-
-
-Here are some examples:
+### SubArray Indexing (Priority)
+In array problems, such as binary search, sorting, partition, you will frequently need to process a sub-array. The practice to represent a subarray can be called subarray indexing. Without making a duplicate, there are more than one method to represent a subarray, here are three most common methods:
+1. **Inclusive End Ranging:** Start Index + end Index (Inclusive), [Start, End].
+2. **Exclusive End Ranging:** Start Index + end Index (Exclusive), [Start, End).
+3. **Lengthing:** Start index + length, [Start, Start + Length)
 
 | Senario | Inclusive | Exclusive | Length |
 |--------|-------|-------| ------- |
-| Range  | for i in range(start, end + 1):|for i in range(start, end):|for i in range(start, start + length):|
-| Middle | (start + end) // 2 | (start + end) // 2  | start + length // 2 
-| Length    | end - start + 1 | end - start | length |
-| Last | end | end - 1 | start + length - 1|
+| range  | for i in range(start, end + 1):|for i in range(start, end):|for i in range(start, start + length):|
+| middle | (start + end) // 2 | (start + end) // 2  | start + length // 2 
+| length    | end - start + 1 | end - start | length |
+| last | end | end - 1 | start + length - 1|
+| first half | (start, middle - 1) | (start, middle) | (start, start + length / 2) |
+| second half | (middle, end) | (middle, end) | (middle, length - length / 2) |
+| full array | (0, size - 1) | (0, size) | (0, size) |
 
+I strongly recommend you follow a single pattern for array indexing from the beginning, and culture it as a habit, especially, don't mix approach #1 and #2 in your coding interview. From my experience, majority of candidates choose **Inclusive End Ranging**, because this is the most intuitive method. I frequently see them run into trouble. My strong recommendation in the guide is officially: **Exclusive End Ranging**, and **Lengthing** can be used as a supplement for some problems, as mathemetical conversion to **Exclusive End Ranging** is simple, here's why.
+- Exclusive end ranging supports easier arithmetic calculation. No + 1 / -1 for most common operations.
+- Many standard libraries are also inheritently using exclusive end ranging. Such as python's `range(start, end)`, slicing `arr[start:end]`, Cpp's standard library `std::find(data.begin(), data.begin() + n /*exclusive*/, target);`. Converting Inclusive end ranging to use these libraries is painful and error-prone.
+- Avoids boundary mistakes. When using inclusive end ranging carelessly, you can easily encounter Out-of-Bound Error, (Segmentation fault in Cpp) ... While they are avoided in exclusive end ranging
 
-Indexing can be best practiced with **example**, if you are not sure your indexing practice during an interview, Start an 3 element example. Let's check a practical problem.
+Subarray indexing can be best practiced with **example**, if you are not sure your subarray indexing practice during an interview, Start a minimal example with 3 element, indicating start, end and size, use the example to verify your calculation. 
+
+Now, let's check a practical problem.
 
 ### Example
 
@@ -33,11 +31,11 @@ Indexing can be best practiced with **example**, if you are not sure your indexi
 
 Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
 
-The question can be solved with straight-forward divide and conquor, but since it splits the array into three parts (left, root, and middle), it can give an uncomfortable indexing practice. Here I started out with approach # 3, not the cleanest, just to give you idea how to process indexes when they might be not obvious:
+The question can be solved with straight-forward divide and conquor, but since it splits the array into three parts (left, root, and middle), it can give an uncomfortable indexing practice. Here I started out with **Lengthing**, not the cleanest, just to give you idea how to process indexes when they might be not obvious:
 
 
 ```
-// Start index + Length
+// Lengthing
 TreeNode* sortedArrayToBST(vector<int>& nums) {
     return sortedArrayToBST(nums, 0, nums.size());
 }
@@ -65,11 +63,11 @@ TreeNode* sortedArrayToBST(vector<int>& nums, int start, int size) {
 
 As you can see, when uncertain, providing example with targeted value, efficiently improves your problem solving and reduces your calculation.
 
-Using exclusive end ranging also effectively solves the problem, try on your own with Inclusive End Index ranging.
+**Exclusive end ranging** also effectively solves the problem, I am convinced that this produces the cleanist functional coding output.
 
 
 ```
-// Exclusive End Index Ranging
+// Exclusive End Ranging
 TreeNode* sortedArrayToBST(vector<int>& nums) {
     return sortedArrayToBST(nums, 0, nums.size());
 }
@@ -88,3 +86,5 @@ TreeNode* sortedArrayToBST(vector<int>& nums, int start, int end) {
     }
 }
 ```
+
+you can practice the same example with **Inclusive End Ranging** if you still prefer it.

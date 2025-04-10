@@ -11,7 +11,7 @@
  */
 
 /**
- * Exclusive End Indexing
+ * Exclusive End Ranging
  */
 class SolutionExclusiveEndRanging {
 public:
@@ -36,7 +36,7 @@ public:
 
 
 /**
- * Start + Length
+ * Lengthing
  */
 class SolutionWithLength {
 public:
